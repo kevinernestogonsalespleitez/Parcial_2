@@ -2,12 +2,16 @@ package Modelo;
 
 public class Cliente {
     private int id = 0;
+
+    public void setId(int id) {
+        this.id = id;
+    }
     private String nombre = null;
     private String apellido = null;
     private String telefono = null;
     private String direccion = null;
 
-    public int id(){
+    public int getid(){
         return this.id;
     }
 

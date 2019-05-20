@@ -62,9 +62,9 @@ public class ctrlProveedores implements ActionListener, MouseListener {
         }
         if (e.getSource() == this.pnlProveedor.JBBuscar) {
             if (this.pnlProveedor.TxtBuscar.getText().length() == 0) {
-                JOptionPane.showMessageDialog(null, "Es necesario llenar el campo busqueda proveedor con el ID del proveedor");
+                JOptionPane.showMessageDialog(null, "Es necesario llenar el campo busqueda proveedor con el nombre del proveedor");
             } else {
-                proveedores.setId_Proveedor(Integer.parseInt(this.pnlProveedor.TxtBuscar.getText()));
+                proveedores.setNombre((this.pnlProveedor.TxtBuscar.getText()));
                 if (this.consultaProveedores.buscarProveedores(proveedores)) {
                     this.pnlProveedor.txtId.setText(String.valueOf(this.proveedores.getId_Proveedor()));
                     this.pnlProveedor.txtNombre.setText(this.proveedores.getNombre());

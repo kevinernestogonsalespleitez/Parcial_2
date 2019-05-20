@@ -10,87 +10,82 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class ConsultaProducto {
-    
+
     Conexion conexion = new Conexion();
-    
-    public boolean guardarProducto(Producto producto){//GUARDAR PRODUCTOS EN LA BASE DE DATOS
-        PreparedStatement ps  = null;
+
+    public boolean guardarProducto(Producto producto) {//GUARDAR PRODUCTOS EN LA BASE DE DATOS
+        PreparedStatement ps = null;
         ResultSet rs = null;
-        
-        String consulta = "INSERT INTO productos(nombre, precio, stock, id_proveedor, descripcion) VALUES('"+producto.getNombre()+"', '"+producto.getPrecio()+"', '"+producto.getStock()+"', '"+producto.getId_proveedor()+"', '"+producto.getDescripcion()+"')";
-        
-        try{
+
+        String consulta = "INSERT INTO productos(nombre, precio, stock, id_proveedor, descripcion) VALUES('" + producto.getNombre() + "', '" + producto.getPrecio() + "', '" + producto.getStock() + "', '" + producto.getId_proveedor() + "', '" + producto.getDescripcion() + "')";
+
+        try {
             ps = conexion.conectar().prepareStatement(consulta);
             ps.execute();
             return true;
-        }catch(SQLException  | ClassNotFoundException ex){
+        } catch (SQLException | ClassNotFoundException ex) {
             return false;
         }
     }
-    
-    public DefaultTableModel ConsultarTablaProductos(){//CONSULTAR LOS DATOS DE LA TABLA CLIENTES
+
+    public DefaultTableModel ConsultarTablaProductos() {//CONSULTAR LOS DATOS DE LA TABLA CLIENTES
         DefaultTableModel tablaproductos = new DefaultTableModel();
         String titulo[] = new String[]{"Nº PRODUCTO", "NOMBRE", "PRECIO", "STOCK", "N° PROVEEDOR"};
-        
+
         PreparedStatement ps = null;
         ResultSet rs = null;
-        
+
         String consulta = "SELECT * FROM `productos` WHERE 1";
-        
-        try{
+
+        try {
             ps = conexion.conectar().prepareStatement(consulta);
             rs = ps.executeQuery();
             tablaproductos.setColumnIdentifiers(titulo);
-            
-            while(rs.next()){
-                tablaproductos.addRow(new Object[]{String.valueOf(rs.getInt("id_producto")), rs.getString("nombre"), String.valueOf(rs.getInt("precio")), String.valueOf(rs.getInt("stock")), String.valueOf(rs.getInt("id_proveedor")),rs.getString("descripcion")});
+
+            while (rs.next()) {
+                tablaproductos.addRow(new Object[]{String.valueOf(rs.getInt("id_producto")), rs.getString("nombre"), String.valueOf(rs.getInt("precio")), String.valueOf(rs.getInt("stock")), String.valueOf(rs.getInt("id_proveedor")), rs.getString("descripcion")});
             }
             return tablaproductos;
-        }catch(SQLException  | ClassNotFoundException ex){
+        } catch (SQLException | ClassNotFoundException ex) {
             return tablaproductos;
         }
     }
-    
-    public DefaultListModel consultarListaClientes(){
-        DefaultListModel listaClientes = new DefaultListModel();
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        
-        String consulta = "SELECT nombre FROM productos";
-        
-        try{
-            ps = conexion.conectar().prepareStatement(consulta);
-            rs = ps.executeQuery();
-            
-            while(rs.next()){
-                listaClientes.addElement(rs.getString("nombre"));
-            }
-            return listaClientes;
-        }catch(SQLException | ClassNotFoundException ex){
-            return listaClientes;
-        } 
+
+    public boolean eliminarProducto(Producto Producto) {
+        try {
+            String consulta = "DELETE FROM `productos` WHERE id_producto='" + Producto.getId() + "'";
+            PreparedStatement ps = conexion.conectar().prepareStatement(consulta);
+            ps.execute();
+            return true;
+        } catch (SQLException | ClassNotFoundException ex) {
+            return false;
+        }
     }
-    
-    public Producto consultarProducto(int id_producto){
+
+    public Producto consultarProducto(Producto Producto) {
         Producto producto = new Producto();
         PreparedStatement ps = null;
         ResultSet rs = null;
-        
-        String consulta ="SELECT id_producto, nombre, precio FROM productos WHERE id_producto='"+id_producto+"'";
-        
-        try{
+
+        String consulta = "SELECT id_producto, nombre, precio FROM productos WHERE id_producto='" +Producto.getId()+ "'";
+
+        try {
             ps = conexion.conectar().prepareStatement(consulta);
             rs = ps.executeQuery();
-            
-            if(rs.next()){
-            producto.setNombre(rs.getString("nombre"));
-            producto.setPrecio(rs.getInt("precio"));
+
+            if (rs.next()) {
+                Producto.setId(rs.getInt(""));
+                Producto.setNombre(rs.getString("nombre"));
+                Producto.setPrecio(rs.getInt("precio"));
+                Producto.setStock(rs.getInt(""));
+                
+                
             }
-            
+
             return producto;
-        }catch(SQLException | ClassNotFoundException ex){
+        } catch (SQLException | ClassNotFoundException ex) {
             return producto;
         }
     }
-    
+
 }

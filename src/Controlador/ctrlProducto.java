@@ -5,12 +5,14 @@ import Modelo.Producto;
 import Vista.pnlProductos;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public class ctrlProducto implements ActionListener {
+public class ctrlProducto implements ActionListener, MouseListener {
 
     Producto producto;
     pnlProductos panelProductos;
@@ -21,7 +23,11 @@ public class ctrlProducto implements ActionListener {
         this.panelProductos = panelProductos;
         this.consultaProducto = consultaProducto;
         this.panelProductos.btnGuardar.addActionListener(this);
+        this.panelProductos.BTNEliminarProducto.addActionListener(this);
+        this.panelProductos.limpiar.addActionListener(this);
+        this.panelProductos.JTablaProductos.addMouseListener(this);
         this.panelProductos.JTablaProductos.setModel(this.consultaProducto.ConsultarTablaProductos());
+        this.panelProductos.txtId.setEnabled(false);
     }
 
     @Override
@@ -37,12 +43,74 @@ public class ctrlProducto implements ActionListener {
                 this.producto.setDescripcion(this.panelProductos.txtDescripcion.getText());
                 if (this.consultaProducto.guardarProducto(producto)) {
                     JOptionPane.showMessageDialog(null, "Operacion Exitosa");
+                    limpiar();
                     this.panelProductos.JTablaProductos.setModel(this.consultaProducto.ConsultarTablaProductos());
                 } else {
                     JOptionPane.showMessageDialog(null, "Error!");
                 }
             }
         }
+        if (e.getSource() == this.panelProductos.BTNEliminarProducto) {
+            if (this.panelProductos.txtId.getText().length() == 0) {
+                JOptionPane.showMessageDialog(null, "Es necesario el campo Id para la eliminacion de un registro");
+            } else {
+                this.producto.setId(Integer.parseInt(this.panelProductos.txtId.getText()));
+                int mensaje = JOptionPane.showConfirmDialog(null, "Esta seguro de que sea eliminar el registro seleccionado");
+                if (mensaje == JOptionPane.YES_OPTION) {
+                    if (this.consultaProducto.eliminarProducto(producto)) {
+                        JOptionPane.showMessageDialog(null, "Operacion Exitosa");
+                        this.panelProductos.JTablaProductos.setModel(this.consultaProducto.ConsultarTablaProductos());
+                        limpiar();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Error al eliminar");
+                    }
+                }
+            }
+        }
+        if (e.getSource() == this.panelProductos.limpiar) {
+            limpiar();
+        }
+    }
+
+    public void limpiar() {
+        this.panelProductos.txtId.setText("");
+        this.panelProductos.txtId_proveedor.setText("");
+        this.panelProductos.txtNombre.setText("");
+        this.panelProductos.txtPrecio.setText("");
+        this.panelProductos.txtStock.setText("");
+        this.panelProductos.txtDescripcion.setText("");
+        this.panelProductos.txtBuscar.setText("");
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        int fila = this.panelProductos.JTablaProductos.getSelectedRow();
+        this.panelProductos.txtId.setText(this.panelProductos.JTablaProductos.getValueAt(fila, 0).toString());
+        this.panelProductos.txtNombre.setText(this.panelProductos.JTablaProductos.getValueAt(fila, 1).toString());
+        this.panelProductos.txtPrecio.setText(this.panelProductos.JTablaProductos.getValueAt(fila, 2).toString());
+        this.panelProductos.txtStock.setText(this.panelProductos.JTablaProductos.getValueAt(fila, 3).toString());
+        this.panelProductos.txtId_proveedor.setText(this.panelProductos.JTablaProductos.getValueAt(fila, 4).toString());
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 
 }

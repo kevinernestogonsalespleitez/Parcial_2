@@ -69,7 +69,7 @@ public class consultaProveedores {
     }
     public boolean buscarProveedores(proveedores proveedores) {
         try {
-            String consulta = "SELECT `id_proveedor`, `nombre`, `direccion`, `telefono` FROM `proveedores` WHERE id_proveedor='"+this.proveedores.getId_Proveedor()+"'";
+            String consulta = "SELECT `id_proveedor`, `nombre`, `direccion`, `telefono` FROM `proveedores` WHERE nombre='"+this.proveedores.getNombre()+"'";
             PreparedStatement ps = c.conectar().prepareStatement(consulta);
             ResultSet rs = ps.executeQuery();
             if(rs.next()) {
