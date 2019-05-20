@@ -25,6 +25,7 @@ public class ctrlProducto implements ActionListener, MouseListener {
         this.panelProductos.btnGuardar.addActionListener(this);
         this.panelProductos.BTNEliminarProducto.addActionListener(this);
         this.panelProductos.limpiar.addActionListener(this);
+        this.panelProductos.btBuscar.addActionListener(this);
         this.panelProductos.JTablaProductos.addMouseListener(this);
         this.panelProductos.JTablaProductos.setModel(this.consultaProducto.ConsultarTablaProductos());
         this.panelProductos.txtId.setEnabled(false);
@@ -66,6 +67,24 @@ public class ctrlProducto implements ActionListener, MouseListener {
                     }
                 }
             }
+        }
+        if (e.getSource() == this.panelProductos.btBuscar) {
+            if (this.panelProductos.txtBuscar.getText().length() == 0) {
+                JOptionPane.showMessageDialog(null, "El campo Busqueda Producto es requerido");
+            } else {
+                this.producto.setId(Integer.parseInt(this.panelProductos.txtBuscar.getText()));
+                if (this.consultaProducto.buscarProducto(producto)) {
+                    JOptionPane.showMessageDialog(null, "Se a encontrado un resultado");
+                    this.panelProductos.txtId.setText(String.valueOf(this.producto.getId()));
+                    this.panelProductos.txtNombre.setText(this.producto.getNombre());
+                    this.panelProductos.txtPrecio.setText(String.valueOf(this.producto.getPrecio()));
+                    this.panelProductos.txtStock.setText(String.valueOf(this.producto.getStock()));
+                    this.panelProductos.txtId_proveedor.setText(String.valueOf(this.producto.getId_proveedor()));
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se han encontrado resultados");
+                }
+            }
+
         }
         if (e.getSource() == this.panelProductos.limpiar) {
             limpiar();

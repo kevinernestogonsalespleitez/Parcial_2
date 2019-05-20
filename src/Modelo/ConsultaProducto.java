@@ -62,29 +62,26 @@ public class ConsultaProducto {
         }
     }
 
-    public Producto consultarProducto(Producto Producto) {
-        Producto producto = new Producto();
+    public boolean buscarProducto(Producto Producto) {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        String consulta = "SELECT id_producto, nombre, precio FROM productos WHERE id_producto='" +Producto.getId()+ "'";
+        String consulta = "SELECT * FROM productos WHERE id_producto='" + Producto.getId() + "'";
 
         try {
             ps = conexion.conectar().prepareStatement(consulta);
             rs = ps.executeQuery();
-
             if (rs.next()) {
-                Producto.setId(rs.getInt(""));
+                Producto.setId(rs.getInt("id_producto"));
                 Producto.setNombre(rs.getString("nombre"));
                 Producto.setPrecio(rs.getInt("precio"));
-                Producto.setStock(rs.getInt(""));
-                
-                
+                Producto.setStock(rs.getInt("stock"));
+                Producto.setId_proveedor(rs.getInt("id_proveedor"));
+                return true;
             }
-
-            return producto;
+            return false;
         } catch (SQLException | ClassNotFoundException ex) {
-            return producto;
+            return false;
         }
     }
 

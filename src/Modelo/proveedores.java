@@ -1,10 +1,19 @@
 package Modelo;
 
 public class proveedores {
+    int id;
     int id_Proveedor;
     String nombre;
     String direccion;
     String telefono;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getId_Proveedor() {
         return id_Proveedor;
