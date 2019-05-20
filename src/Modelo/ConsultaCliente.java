@@ -14,7 +14,8 @@ public class ConsultaCliente {
 
     public boolean nuevoCliente(Cliente cliente) {
         try {
-            String consulta = "INSERT INTO `clientes`(`nombre`, `apellido`, `direccion`, `telefono`) VALUES('" + cliente.getNombre() + "', '" + cliente.getApellido() + "', '" + cliente.getTelefono() + "', '" + cliente.getDireccion() + "')";
+            String consulta = "INSERT INTO `clientes`(`nombre`, `apellido`, `direccion`, `telefono`) VALUES('" + cliente.getNombre() + "', '" + cliente.getApellido() + "', '" + cliente.getDireccion() + "', '" + cliente.getTelefono() + "')";
+            System.out.println(consulta);
             PreparedStatement ps = conexion.conectar().prepareStatement(consulta);
             ps.execute();
             ps.close();

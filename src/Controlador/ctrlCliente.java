@@ -29,6 +29,7 @@ public class ctrlCliente implements ActionListener, MouseListener {
         this.panelClientes.JBLimpiar.addActionListener(this);
         this.panelClientes.tablaCliente.addMouseListener(this);
         this.panelClientes.BTBuscar.addActionListener(this);
+        this.panelClientes.txtId.setEnabled(false);
     }
 
     @Override
@@ -74,17 +75,21 @@ public class ctrlCliente implements ActionListener, MouseListener {
             if (this.panelClientes.txtBuscar.getText().length() == 0) {
                 JOptionPane.showMessageDialog(null, "El campo Busqueda cliente es requerido");
             } else {
-                cliente.setId(Integer.parseInt(this.panelClientes.txtBuscar.getText()));
-                if (this.consultaCliente.buscarcliente(cliente)) {
-                    JOptionPane.showMessageDialog(null, "Se ha encontrado un resultado");
-                    this.panelClientes.txtId.setText(String.valueOf(cliente.getid()));
-                    this.panelClientes.txtNombre.setText(cliente.getNombre());
-                    this.panelClientes.txtApellido.setText(cliente.getApellido());
-                    this.panelClientes.txtDireccion.setText(cliente.getDireccion());
-                    this.panelClientes.txtTelefono.setText(cliente.getTelefono());
+                try {
+                    cliente.setId(Integer.parseInt(this.panelClientes.txtBuscar.getText()));
+                    if (this.consultaCliente.buscarcliente(cliente)) {
+                        JOptionPane.showMessageDialog(null, "Se ha encontrado un resultado");
+                        this.panelClientes.txtId.setText(String.valueOf(cliente.getid()));
+                        this.panelClientes.txtNombre.setText(cliente.getNombre());
+                        this.panelClientes.txtApellido.setText(cliente.getApellido());
+                        this.panelClientes.txtDireccion.setText(cliente.getDireccion());
+                        this.panelClientes.txtTelefono.setText(cliente.getTelefono());
 
-                } else {
-                    JOptionPane.showMessageDialog(null, "No se han encontrado resultados");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No se han encontrado resultados");
+                    }
+                } catch (NumberFormatException en) {
+                    JOptionPane.showMessageDialog(null, "Porfavor Ingrese unicamente el Id del cliente que decea buscar");
                 }
             }
         }

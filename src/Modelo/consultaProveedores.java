@@ -77,11 +77,15 @@ public class consultaProveedores {
                 this.proveedores.setNombre(rs.getString("nombre"));
                 this.proveedores.setDireccion(rs.getString("direccion"));
                 this.proveedores.setTelefono(rs.getString("telefono"));
-            }
             ps.close();
             ps = null;
             c.desconectar();
             return true;
+            }
+            ps.close();
+            ps = null;
+            c.desconectar();
+            return false;
         } catch (ClassNotFoundException | SQLException ex) {
             return false;
         }

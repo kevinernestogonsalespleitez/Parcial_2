@@ -66,15 +66,20 @@ public class ctrlProveedores implements ActionListener, MouseListener {
             } else {
                 if (this.pnlProveedor.TxtBuscar.getText().length() == 0) {
                     JOptionPane.showMessageDialog(null, "El campo Busqueda proveedor es requerido");
-                }else{
-                    proveedores.setId(Integer.parseInt(this.pnlProveedor.TxtBuscar.getText()));
-                    if (this.consultaProveedores.buscarProveedores(proveedores)) {
-                        this.pnlProveedor.txtId.setText(String.valueOf(this.proveedores.getId_Proveedor()));
-                        this.pnlProveedor.txtNombre.setText(this.proveedores.getNombre());
-                        this.pnlProveedor.txtDireccion.setText(this.proveedores.getDireccion());
-                        this.pnlProveedor.txtTelefono.setText(this.proveedores.getTelefono());
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Error en la busqueda");
+                } else {
+                    try {
+                        proveedores.setId(Integer.parseInt(this.pnlProveedor.TxtBuscar.getText()));
+                        if (this.consultaProveedores.buscarProveedores(proveedores)) {
+                            JOptionPane.showMessageDialog(null, "Se ha encontrado un resultado");
+                            this.pnlProveedor.txtId.setText(String.valueOf(this.proveedores.getId_Proveedor()));
+                            this.pnlProveedor.txtNombre.setText(this.proveedores.getNombre());
+                            this.pnlProveedor.txtDireccion.setText(this.proveedores.getDireccion());
+                            this.pnlProveedor.txtTelefono.setText(this.proveedores.getTelefono());
+                        } else {
+                            JOptionPane.showMessageDialog(null, "No se han encontrado resultados");
+                        }
+                    } catch (NumberFormatException en) {
+                        JOptionPane.showMessageDialog(null, "Porfavor Ingrese unicamente el Id del Proveedor que decea buscar");
                     }
                 }
             }

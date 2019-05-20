@@ -72,6 +72,7 @@ public class ctrlProducto implements ActionListener, MouseListener {
             if (this.panelProductos.txtBuscar.getText().length() == 0) {
                 JOptionPane.showMessageDialog(null, "El campo Busqueda Producto es requerido");
             } else {
+                try{
                 this.producto.setId(Integer.parseInt(this.panelProductos.txtBuscar.getText()));
                 if (this.consultaProducto.buscarProducto(producto)) {
                     JOptionPane.showMessageDialog(null, "Se a encontrado un resultado");
@@ -82,6 +83,9 @@ public class ctrlProducto implements ActionListener, MouseListener {
                     this.panelProductos.txtId_proveedor.setText(String.valueOf(this.producto.getId_proveedor()));
                 } else {
                     JOptionPane.showMessageDialog(null, "No se han encontrado resultados");
+                }
+                } catch (NumberFormatException en) {
+                    JOptionPane.showMessageDialog(null, "Porfavor Ingrese unicamente el Id del Producto que decea buscar");
                 }
             }
 
